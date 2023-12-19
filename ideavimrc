@@ -1,0 +1,215 @@
+" Глянуть все action: :actionlist
+
+" Добавляем русский язык в для visual режима
+map й q
+map ц w
+map у e
+map к r
+map е t
+map н y
+map г u
+map ш i
+map щ o
+map з p
+map х [
+map ъ ]
+map ф a
+map ы s
+map в d
+map а f
+map п g
+map р h
+map о j
+map л k
+map д l
+map ж ;
+map э '
+map ё `
+map я z
+map ч x
+map с c
+map м v
+map и b
+map т n
+map ь m
+map б ,
+map ю .
+map Й Q
+map Ц W
+map У E
+map К R
+map Е T
+map Н Y
+map Г U
+map Ш I
+map Щ O
+map З P
+map Х {
+map Ъ }
+map Ф A
+map Ы S
+map В D
+map А F
+map П G
+map Р H
+map О J
+map Л K
+map Д L
+map Ж :
+map Э "
+map Я Z
+map Ч X
+map С C
+map М V
+map И B
+map Т N
+map Ь M
+map Б <
+map Ю >
+map Ё ~
+map ; $
+
+" # Некоторое базовое поведение
+"
+" ## Стандартные копирование и вставка из буфера
+"
+map <C-v> "*p
+map <C-c> "*y
+
+" ## Чиним visual-block mod
+"
+" Visual-block mod - сломан вставкой из буфера:
+"
+nnoremap vv <c-v>
+vnoremap <s-v> <esc>
+
+" ## Вставка пустой строки
+"
+" Меняем дурацкое поведение, теперь не выходим из noraml mode:
+"
+nnoremap o o<esc>
+
+" ## Исправляем вставку и Undo/Redo
+"
+"   - Стандартные ctrl+z и ctrl+shift+z
+"   - Как же заебал replace, поэтому он убран
+"
+map <C-z> u
+map <C-S-z> r
+map r <c-r>
+
+" ## Выход из insert-mode
+"
+" Добавляем выход из insert-mode, через комбинацию cv:
+"
+imap cv <esc>
+imap см <esc>
+
+" ## Отключаем стрелки
+"
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+
+" ## Работаем с клавишами перемещения
+"
+" Настраиваем перемещение(через Shift):
+"
+"   - <s-h>/<s-l> - Перейти к след/пред параграфу
+"   - <s-j>/<s-k> - Перейти к след/пред методу
+"
+nnoremap <s-h> :action EditorBackwardParagraph<CR>
+nnoremap <s-l> :action EditorForwardParagraph<CR>
+nnoremap <s-j> :action MethodDown<CR>
+nnoremap <s-k> :action MethodUp<CR>
+
+" ## Работаем с клавишами навигации
+"
+" Настраиваем навигцию(через Ctrl):
+"
+"   - <c-h>/<c-l> - Перейти к след/пред табу
+"   - <c-j>/<c-k> - Перейти внутрь метода-или-класса/вернуться-обратно
+"
+map <c-h> gT
+map <c-l> gt
+map <c-j> :action GotoDeclaration<CR>
+map <c-k> :action Back<CR>
+
+" ## Работаем с клавишами редактирования
+"
+" Настраиваем редактирование(через Alt):
+"
+"   - Меняем строки местами
+"
+map <a-j> :action MoveLineDown<CR>
+map <a-k> :action MoveLineUp<CR>
+
+" # Горячие клавиши поиска
+"
+" Горячие клавиши поиска:
+"
+"   - <c-f>f - Поиск в текущем файле
+"   - <c-f>g - Поиск в проекте
+"   - <c-f>a - Поиск по именам классов/файлов/git/символах
+"   - <c-f>r - Запустить таску
+"
+map <c-f>f :action Find<CR>
+map <c-f>g :action FindInPath<CR>
+map <c-f>a :action SearchEverywhere<CR>
+map <c-f>r :action RunAnything<CR>
+
+" # Работа с окнами
+"
+" Создаем Tab
+"
+nnoremap <c-w>e :action SplitVertically<CR>
+nnoremap <c-w>d :action SplitHorizontally<CR>
+nnoremap <c-w>q :action CloseAllEditors<CR>
+" nnoremap <c-w>q :action CloseEditor<CR>
+
+"   ## Работа с tool-окнами
+"
+" Для нормальной работы необходимо:
+"   - нужно в Idea замапить action с Left/Up/Right/Down на h/k/l/j
+"   - нужно помнить, что Esc выходит из любого tool-окна в текстовый tab
+"   - нужно помнить, что Alt-<num> нажатый несколько раз закрывает tool-окно
+"
+" Открываем окно со всеми вкладками и tool-ами
+"
+map <c-w>w :action Switcher<CR>
+map <c-w>r :action RecentFiles<CR>
+
+" Закрываем все tool
+"
+nnoremap <c-w>c :action HideAllWindows<CR>
+" nnoremap <c-w>c :action ToggleDistractionFreeMode<CR>
+
+" Открываем окно со всеми недавними файлами
+map <c-w>r :action RecentFiles<CR>
+
+" # Plugin: comentary
+"
+" Комментирование строк:
+"   - gc - комментируем выделенные-строчки/выделенное
+"   - gcc - комментируем одну строку
+"
+set commentary
+
+" # Plugin: NERDTree
+"
+" Навигация через клавиатуру:
+"   - Ctrl + n - открываем окно проекта
+"   - m - вызываем контекстное меню
+"   - p - прыжок к корневой папке
+"   - <s-a> - изменить размер окна проекта на максимальный/минимальный
+"   - <s-k>/<s-j> - прыжок к первому/последнему файлу в папке
+"   - <c-k>/<c-j> - идем по элементам одного уровня
+"   - O - рекурсивно открывает папку
+"   - x - закрывает текущую папку, в которой находится курсор
+"
+set NERDTree
+
+" Открытие папки проектов
+"
+nmap <c-n> :NERDTree<CR>
