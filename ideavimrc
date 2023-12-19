@@ -154,7 +154,7 @@ map <a-k> :action MoveLineUp<CR>
 "   - <c-f>a - Поиск по именам классов/файлов/git/символах
 "   - <c-f>r - Запустить таску
 "
-map <c-f>f :action Find<CR>
+map <c-f>f :action Replace<CR>
 map <c-f>g :action FindInPath<CR>
 map <c-f>a :action SearchEverywhere<CR>
 map <c-f>r :action RunAnything<CR>
@@ -165,8 +165,8 @@ map <c-f>r :action RunAnything<CR>
 "
 nnoremap <c-w>e :action SplitVertically<CR>
 nnoremap <c-w>d :action SplitHorizontally<CR>
-nnoremap <c-w>q :action CloseAllEditors<CR>
-" nnoremap <c-w>q :action CloseEditor<CR>
+nnoremap <c-w>Q :action CloseAllEditors<CR>
+nnoremap <c-w>q :action CloseContent<CR>
 
 "   ## Работа с tool-окнами
 "
@@ -174,19 +174,113 @@ nnoremap <c-w>q :action CloseAllEditors<CR>
 "   - нужно в Idea замапить action с Left/Up/Right/Down на h/k/l/j
 "   - нужно помнить, что Esc выходит из любого tool-окна в текстовый tab
 "   - нужно помнить, что Alt-<num> нажатый несколько раз закрывает tool-окно
-"
-" Открываем окно со всеми вкладками и tool-ами
+
+" - <c-w>w - Открываем окно со всеми вкладками и tool-ами
+" - <c-w>r - Открываем окно со всеми недавними файлами
+" - <c-w>b - Открываем окно со всеми bookmarks
 "
 map <c-w>w :action Switcher<CR>
 map <c-w>r :action RecentFiles<CR>
+map <c-w>b :action ShowBookmarks<CR>
 
 " Закрываем все tool
 "
 nnoremap <c-w>c :action HideAllWindows<CR>
 " nnoremap <c-w>c :action ToggleDistractionFreeMode<CR>
 
-" Открываем окно со всеми недавними файлами
-map <c-w>r :action RecentFiles<CR>
+" # Все что связанно с аннатациями строки Bookmarks/Breakpoint/Git-changes
+
+" ## Breakpoint
+"
+nmap mb :action ToggleLineBreakpoint<CR>
+
+
+" ## Git-changes
+
+" К сожалению работа с diff и git поддерживается плохо (
+"
+nmap gj :action VcsShowNextChangeMarker<CR>:action NextDiff<CR>
+nmap gk :action VcsShowPrevChangeMarker<CR>:action PreviousDiff<CR>
+nmap gr :action Vcs.RollbackChangedLines<CR>
+
+" ## Bookmarks
+"
+nmap mm :action ToggleBookmark<CR>
+nmap m1 :action ToggleBookmark1<CR>
+nmap m2 :action ToggleBookmark2<CR>
+nmap m3 :action ToggleBookmark3<CR>
+nmap m4 :action ToggleBookmark4<CR>
+nmap m5 :action ToggleBookmark5<CR>
+nmap m6 :action ToggleBookmark6<CR>
+nmap m7 :action ToggleBookmark7<CR>
+nmap m8 :action ToggleBookmark8<CR>
+nmap m9 :action ToggleBookmark9<CR>
+nmap mQ :action ToggleBookmarkQ<CR>
+nmap mW :action ToggleBookmarkW<CR>
+nmap mE :action ToggleBookmarkE<CR>
+nmap mR :action ToggleBookmarkR<CR>
+nmap mT :action ToggleBookmarkT<CR>
+nmap mY :action ToggleBookmarkY<CR>
+nmap mU :action ToggleBookmarkU<CR>
+nmap mI :action ToggleBookmarkI<CR>
+nmap mO :action ToggleBookmarkO<CR>
+nmap mo :action ToggleBookmarko<CR>
+nmap mP :action ToggleBookmarkP<CR>
+nmap mp :action ToggleBookmarkp<CR>
+nmap mA :action ToggleBookmarkA<CR>
+nmap mS :action ToggleBookmarkS<CR>
+nmap mD :action ToggleBookmarkD<CR>
+nmap mF :action ToggleBookmarkF<CR>
+nmap mG :action ToggleBookmarkG<CR>
+nmap mH :action ToggleBookmarkH<CR>
+nmap mJ :action ToggleBookmarkJ<CR>
+nmap mK :action ToggleBookmarkK<CR>
+nmap mL :action ToggleBookmarkL<CR>
+nmap mZ :action ToggleBookmarkZ<CR>
+nmap mX :action ToggleBookmarkX<CR>
+nmap mC :action ToggleBookmarkC<CR>
+nmap mV :action ToggleBookmarkV<CR>
+nmap mB :action ToggleBookmarkB<CR>
+nmap mN :action ToggleBookmarkN<CR>
+nmap mM :action ToggleBookmarkM<CR>
+
+nmap `1 :action GotoBookmark1<CR>
+nmap `2 :action GotoBookmark2<CR>
+nmap `3 :action GotoBookmark3<CR>
+nmap `4 :action GotoBookmark4<CR>
+nmap `5 :action GotoBookmark5<CR>
+nmap `6 :action GotoBookmark6<CR>
+nmap `7 :action GotoBookmark7<CR>
+nmap `8 :action GotoBookmark8<CR>
+nmap `9 :action GotoBookmark9<CR>
+nmap `Q :action GotoBookmarkQ<CR>
+nmap `W :action GotoBookmarkW<CR>
+nmap `E :action GotoBookmarkE<CR>
+nmap `R :action GotoBookmarkR<CR>
+nmap `T :action GotoBookmarkT<CR>
+nmap `Y :action GotoBookmarkY<CR>
+nmap `U :action GotoBookmarkU<CR>
+nmap `I :action GotoBookmarkI<CR>
+nmap `O :action GotoBookmarkO<CR>
+nmap `o :action GotoBookmarko<CR>
+nmap `P :action GotoBookmarkP<CR>
+nmap `p :action GotoBookmarkp<CR>
+nmap `A :action GotoBookmarkA<CR>
+nmap `S :action GotoBookmarkS<CR>
+nmap `D :action GotoBookmarkD<CR>
+nmap `F :action GotoBookmarkF<CR>
+nmap `G :action GotoBookmarkG<CR>
+nmap `H :action GotoBookmarkH<CR>
+nmap `J :action GotoBookmarkJ<CR>
+nmap `K :action GotoBookmarkK<CR>
+nmap `L :action GotoBookmarkL<CR>
+nmap `Z :action GotoBookmarkZ<CR>
+nmap `X :action GotoBookmarkX<CR>
+nmap `C :action GotoBookmarkC<CR>
+nmap `V :action GotoBookmarkV<CR>
+nmap `B :action GotoBookmarkB<CR>
+nmap `N :action GotoBookmarkN<CR>
+nmap `M :action GotoBookmarkM<CR>
 
 " # Plugin: comentary
 "
