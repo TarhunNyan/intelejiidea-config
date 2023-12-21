@@ -133,7 +133,7 @@ nnoremap <s-k> :action MethodUp<CR>
 "
 map <c-h> gT
 map <c-l> gt
-map <c-j> :action GotoDeclaration<CR>
+map <c-j> :action ClickLink<CR>:action GotoDeclaration<CR>
 map <c-k> :action Back<CR>
 
 " ## Работаем с клавишами редактирования
@@ -158,6 +158,11 @@ map <c-f>f :action Replace<CR>
 map <c-f>g :action FindInPath<CR>
 map <c-f>a :action SearchEverywhere<CR>
 map <c-f>r :action RunAnything<CR>
+
+" # Горячие клавиши поиска
+"   - <c-r> - Рефакторим то что надо зарефакторить
+"
+map <c-r> :action Refactorings.QuickListPopupAction<CR>
 
 " # Работа с окнами
 "
@@ -281,6 +286,10 @@ nmap `V :action GotoBookmarkV<CR>
 nmap `B :action GotoBookmarkB<CR>
 nmap `N :action GotoBookmarkN<CR>
 nmap `M :action GotoBookmarkM<CR>
+
+" # Документация
+"
+map <c-q> :action QuickJavaDoc<CR>
 
 " # Plugin: comentary
 "
