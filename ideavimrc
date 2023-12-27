@@ -128,22 +128,25 @@ nnoremap <s-k> :action MethodUp<CR>
 "
 " Настраиваем навигцию(через Ctrl):
 "
-"   - <c-h>/<c-l> - Перейти к след/пред табу
-"   - <c-j>/<c-k> - Перейти внутрь метода-или-класса/вернуться-обратно
+"   - <c-j> - Перейти внутрь метода или класса
+"   - <c-k>/<c-l> - Перейти к след/пред местоположению курсора
 "
-map <c-h> gT
-map <c-l> gt
+"map <c-h> gT
 map <c-j> :action ClickLink<CR>:action GotoDeclaration<CR>
+map <c-l> :action Forward<CR>
 map <c-k> :action Back<CR>
 
 " ## Работаем с клавишами редактирования
 "
 " Настраиваем редактирование(через Alt):
 "
-"   - Меняем строки местами
+"   - <a-j>/<a-k> - Меняем строки местами вниз/вверх
+"   - <a-h>/<a-l> - Переходим к предку/потомку
 "
 map <a-j> :action MoveLineDown<CR>
 map <a-k> :action MoveLineUp<CR>
+map <a-h> :action GotoSuperMethod<CR>
+map <a-l> :action GotoImplementation<CR>
 
 " # Горячие клавиши поиска
 "
@@ -315,4 +318,10 @@ set NERDTree
 
 " Открытие папки проектов
 "
-nmap <c-n> :NERDTree<CR>
+nmap <c-n> :NERDTree<CR>:action SelectInProjectView<CR>
+
+" # Plugin: Easymotion
+"
+" Каого-то хрена не работает
+" Зато работает AceJump
+"   - <c-;> - перемещаемся к указонному символу
