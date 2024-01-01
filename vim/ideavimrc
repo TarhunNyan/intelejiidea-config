@@ -1,80 +1,21 @@
 " Глянуть все action: :actionlist
 
-" Добавляем русский язык в для visual режима
-map й q
-map ц w
-map у e
-map к r
-map е t
-map н y
-map г u
-map ш i
-map щ o
-map з p
-map х [
-map ъ ]
-map ф a
-map ы s
-map в d
-map а f
-map п g
-map р h
-map о j
-map л k
-map д l
-map ж ;
-map э '
-map ё `
-map я z
-map ч x
-map с c
-map м v
-map и b
-map т n
-map ь m
-map б ,
-map ю .
-map Й Q
-map Ц W
-map У E
-map К R
-map Е T
-map Н Y
-map Г U
-map Ш I
-map Щ O
-map З P
-map Х {
-map Ъ }
-map Ф A
-map Ы S
-map В D
-map А F
-map П G
-map Р H
-map О J
-map Л K
-map Д L
-map Ж :
-map Э "
-map Я Z
-map Ч X
-map С C
-map М V
-map И B
-map Т N
-map Ь M
-map Б <
-map Ю >
-map Ё ~
-map ; $
+"Нумирация строк относительно курсора
+set number
+set relativenumber
+set nowrap
+set scrolloff=4
+
 
 " # Некоторое базовое поведение
 "
 " ## Стандартные копирование и вставка из буфера
 "
-map <C-v> "*p
-map <C-c> "*y
+map <C-v> :action $Paste<CR>:action EditorEscape<CR>
+map <C-c> :action $Copy<CR>v:action EditorEscape<CR>
+map <C-x> :action $Cut<CR>
+map y :action $Copy<CR>v:action EditorEscape<CR>
+map p :action $Paste<CR>v:action EditorEscape<CR>
 
 " ## Чиним visual-block mod
 "
@@ -83,11 +24,17 @@ map <C-c> "*y
 nnoremap vv <c-v>
 vnoremap <s-v> <esc>
 
+" ## Чиним visual-block mod
+"
+
+nnoremap <c-a> ggvG
+
 " ## Вставка пустой строки
 "
 " Меняем дурацкое поведение, теперь не выходим из noraml mode:
 "
 nnoremap o o<esc>
+nnoremap O O<esc>
 
 " ## Исправляем вставку и Undo/Redo
 "
@@ -114,15 +61,26 @@ noremap <Right> <NOP>
 
 " ## Работаем с клавишами перемещения
 "
-" Настраиваем перемещение(через Shift):
+" Перемещение по методам/параграфам:
 "
 "   - <s-h>/<s-l> - Перейти к след/пред параграфу
 "   - <s-j>/<s-k> - Перейти к след/пред методу
-"
+
 nnoremap <s-h> :action EditorBackwardParagraph<CR>
 nnoremap <s-l> :action EditorForwardParagraph<CR>
 nnoremap <s-j> :action MethodDown<CR>
 nnoremap <s-k> :action MethodUp<CR>
+
+" # Перемещаемся по diff
+"
+" Настраиваем перемещение по diff'ам(через Shift):
+"   - [ - Перейти к предыдущему diff
+"   - ] - Перейти к следуюшему diff
+"   - gr - Rollback изменений
+
+nmap ] :action VcsShowNextChangeMarker<CR>:action NextDiff<CR>
+nmap [ :action VcsShowPrevChangeMarker<CR>:action PreviousDiff<CR>
+nmap gr :action Vcs.RollbackChangedLines<CR>
 
 " ## Работаем с клавишами навигации
 "
@@ -162,10 +120,12 @@ map <c-f>g :action FindInPath<CR>
 map <c-f>a :action SearchEverywhere<CR>
 map <c-f>r :action RunAnything<CR>
 
-" # Горячие клавиши поиска
-"   - <c-r> - Рефакторим то что надо зарефакторить
+" # Рефакторинг
+"   - <c-r> - Refactor code
+"   - <c-i> - Generate code
 "
 map <c-r> :action Refactorings.QuickListPopupAction<CR>
+nnoremap <c-i> :action Generate<CR>
 
 " # Работа с окнами
 "
@@ -173,7 +133,7 @@ map <c-r> :action Refactorings.QuickListPopupAction<CR>
 "
 nnoremap <c-w>e :action SplitVertically<CR>
 nnoremap <c-w>d :action SplitHorizontally<CR>
-nnoremap <c-w>Q :action CloseAllEditors<CR>
+nnoremap <c-w>a :action CloseAllEditors<CR>
 nnoremap <c-w>q :action CloseContent<CR>
 
 "   ## Работа с tool-окнами
@@ -201,15 +161,6 @@ nnoremap <c-w>c :action HideAllWindows<CR>
 " ## Breakpoint
 "
 nmap mb :action ToggleLineBreakpoint<CR>
-
-
-" ## Git-changes
-
-" К сожалению работа с diff и git поддерживается плохо (
-"
-nmap gj :action VcsShowNextChangeMarker<CR>:action NextDiff<CR>
-nmap gk :action VcsShowPrevChangeMarker<CR>:action PreviousDiff<CR>
-nmap gr :action Vcs.RollbackChangedLines<CR>
 
 " ## Bookmarks
 "
@@ -294,6 +245,15 @@ nmap `M :action GotoBookmarkM<CR>
 "
 map <c-q> :action QuickJavaDoc<CR>
 
+" # Работа курсора
+"
+" Работа курсора:
+"   - zz - центрироваться на курсоре
+"   - ^ - первый не пустой символ в строке
+"   - $ - конец строки
+"   - % - начало/конец блока
+
+
 " # Plugin: comentary
 "
 " Комментирование строк:
@@ -302,6 +262,11 @@ map <c-q> :action QuickJavaDoc<CR>
 "
 set commentary
 
+" # Plugin: NERDTree
+"
+" Работаем с tool-окнами
+
+nnoremap <c-w>q :action CloseContent<CR>
 " # Plugin: NERDTree
 "
 " Навигация через клавиатуру:
@@ -324,4 +289,22 @@ nmap <c-n> :NERDTree<CR>:action SelectInProjectView<CR>
 "
 " Каого-то хрена не работает
 " Зато работает AceJump
-"   - <c-;> - перемещаемся к указонному символу
+" # Plugin: Easymotion
+
+" # Plugin: SneakyVIM
+"
+" Мне не понравился
+" Повторить предыдущий поиск в строке (f/F/t/T):
+"   - p - в прямом направлении
+"   - P - в обратном направлении
+nnoremap p ;
+noremap P ,
+
+" # Plugin: MultipleCursor
+"
+" Тупо не заработал
+
+" # Plugin: VimExtension
+"
+" Отвечает за смену языка на английский при выходе из Insert мода(просто обязательная штука)
+:set keep-english-in-normal
